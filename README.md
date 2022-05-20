@@ -1,1 +1,3 @@
-# language_dao
+yarn install
+yarn dev
+
