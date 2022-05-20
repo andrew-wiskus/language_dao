@@ -7,9 +7,10 @@ const features = [
     { feature: `Feature list w/ checkmarks`, isCompleted: true, tokenVotes: 0 },
     { feature: `Contribution class for db integration & hash creation`, isCompleted: true, tokenVotes: 0 },
     { feature: `/add-content contribution page, upload image w/ multiple sentences`, isCompleted: true, tokenVotes: 0 },
-    { feature: `/update-content to update images already uploaded`, isCompleted: false, tokenVotes: 0 },
+    { feature: `/update-content to update images already uploaded`, isCompleted: true, tokenVotes: 0 },
     { feature: `/translate to upload translations for WORDS and SENTANCES`, isCompleted: false, tokenVotes: 0 },
     { feature: `popover on /learn w/ word translations`, isCompleted: false, tokenVotes: 0 },
+    { feature: `nav bar lol >.>`, isCompleted: false, tokenVotes: 0 },
     { feature: `"view translation" for full sentance on /learn`, isCompleted: false, tokenVotes: 0 },
     { feature: `rating system to pre-rate your confidence after viewing (slider?)`, isCompleted: false, tokenVotes: 0 },
     { feature: `-- profile with contribution listings`, isCompleted: false, tokenVotes: 0 },
@@ -17,7 +18,8 @@ const features = [
     { feature: `legit auth`, isCompleted: false, tokenVotes: 0 },
     { feature: `input to add to feature list page`, isCompleted: false, tokenVotes: 0 },
     { feature: `upload smaller images than sorce if > (x)MB lol`, isCompleted: false, tokenVotes: 0 },
-    { feature: `able to 'choose random photo' instead of uploading`, isCompleted: false, tokenVotes: 0 }
+    { feature: `able to 'choose random photo' instead of uploading`, isCompleted: false, tokenVotes: 0 },
+    { feature: `add ability to tag images so we can sort/categorize them`, isCompleted: false, tokenVotes: 0 },
 ]
 
 const CHECKBOX = `border-[3px] border-[black] rounded h-[25px] w-[25px]`
@@ -38,7 +40,6 @@ class FeaturePage extends React.Component<{}, {}> {
                         )
                     })}
                 </div>
-
             </div>
         )
     }

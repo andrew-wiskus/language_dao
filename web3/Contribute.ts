@@ -1,6 +1,6 @@
 import { getDownloadURL, ref as sRef, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import moment from "moment";
-import { getDatabase, ref, push, set } from 'firebase/database';
+import { getDatabase, ref, push, set, update } from 'firebase/database';
 
 // xxx 
 export function fakeHash() {
@@ -15,7 +15,7 @@ export function fakeHash() {
     return result;
 }
 
-export interface ImageText {
+export interface TextDescriptions {
     simple: string,
     descriptive: string,
     verbose: string,
@@ -23,7 +23,21 @@ export interface ImageText {
 }
 
 export class Contribute {
-    public static async uploadImage(storage: any, imageAsFile: any, textData: ImageText, invokeCalback: () => void) {
+
+    public static async updateImageData(updatePayload: any) {
+        const itemsToUpdate = Object.keys(updatePayload);
+
+        itemsToUpdate.forEach((hash: any) => {
+            const textToUpdate = Object.keys(updatePayload[hash]);
+            textToUpdate.forEach((key: any) => {
+                const textKey = key;
+                const value = updatePayload[hash][key];
+                DataController.updateTextDescriptionForItem(hash, textKey, value)
+            })
+        })
+    }
+
+    public static async uploadImage(storage: any, imageAsFile: any, textData: TextDescriptions, invokeCalback: () => void) {
         const hash = 'II' + fakeHash();
         const uuid = 'todo-uuid'
 
@@ -67,6 +81,12 @@ class DataController {
 
         const contentRef = ref(db, 'content/imageAndText/' + hash)
         set(contentRef, data);
+    }
+
+    public static updateTextDescriptionForItem(hash: string, textKey: string, value: string) {
+        const db = getDatabase();
+        const r = ref(db, `/content/imageAndText/${hash}/textData/${textKey}`);
+        set(r, value);
     }
 }
 

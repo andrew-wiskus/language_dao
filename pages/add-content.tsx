@@ -3,28 +3,8 @@ import React, { useState } from 'react'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { Contribute, ImageText } from '../web3/Contribute';
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-    apiKey: "AIzaSyBKsBUqPBdpGhNVsbsH6gy51Hmmoubz5qg",
-    authDomain: "lingolu-c8ff2.firebaseapp.com",
-    projectId: "lingolu-c8ff2",
-    storageBucket: "lingolu-c8ff2.appspot.com",
-    messagingSenderId: "259463385399",
-    appId: "1:259463385399:web:8126fd677289865ea70ab2",
-    measurementId: "G-92YP1QGXCJ"
-};
-
-
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+import { Contribute, TextDescriptions } from '../web3/Contribute';
+import { storage } from './_app';
 
 enum UploadState {
     NULL = 'NULL',
@@ -32,7 +12,7 @@ enum UploadState {
     FINISHED = 'FINISHED',
 }
 
-const FeaturePage = () => {
+const AddContentPage = () => {
 
     const [imageAsFile, setImageAsFile] = useState<any>('')
     const [imageSrc, setImageSrc] = useState<any>(null)
@@ -101,7 +81,7 @@ const FeaturePage = () => {
             }
         }
 
-        const textData: ImageText = {
+        const textData: TextDescriptions = {
             simple: textLevel1,
             descriptive: textLevel2,
             verbose: textLevel3,
@@ -182,7 +162,7 @@ const FeaturePage = () => {
     )
 }
 
-export default FeaturePage
+export default AddContentPage
 
 function getDatabase() {
     throw new Error('Function not implemented.');
