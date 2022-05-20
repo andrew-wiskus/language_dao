@@ -1,12 +1,12 @@
 {
-  "type": "service_account",
-  "project_id": "battle-card-game",
-  "private_key_id": "b11755306ddf46f42966e9786c8cfe3523c8accb",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCVY8a9rVBKfBNi\n0mf3NfaJmfL9127zxhVisdV7VM6NXQs4PZjnzgRpK3SjdXrgx3II4LpCvOhfEbAJ\nu+f+yhSVCsZwOIvTNrxFP+RxU/XIN6DvFOMjurowPcXm+MvSYTqqP/JnlIisJpzd\nsRWdN14wIB59FU/0OUG5YGv7fhtgupzsIp9K7WtmmYhHM+yNu9UQP9ai2ftwlJod\n8YgYs95QzFmY8IC30KFiYLfTcYTrC1kRIZnP1Y9h/jpxFkf1WSEmSyR/rYdV5De5\nj4SHHpxI3zkn5rzTdSBKLBLR73oEJkLviVYfBPy6DaFT9gK3VhGzmWiM/Nn2do8j\nEFRJfc2jAgMBAAECggEAPxpFYeuqpbvhaHXeKqNlv1wDM0xj9p7ue6EIvy7kjPwH\neDs0sn3oiRAtFbrTK82zkqJyqywmr7nF9WalKY/sv8QsbEzGa3KMdmf1tBU2FdvB\npBvbkkUWzrfZN6ZSWkxtvmqCl1Q7oxQwYMiji6ROqd93YXi2LEBfTdG36ySqpeGo\naQHfu2tSAcwQYb7nINMLYPLKyaK1qC2eM5+pVCG0qQOzGdY/NUh8ZKmeUoflX7T/\nnWBqeLFHXhmuw0Cy09FusW/87P77/HqEBFjcANDi62i4EkgSAHy1pF3V3awru3LE\nZSdmDv6k/0WsubyWl+iU5EjXIpcjPmS91uTH5Y1NuQKBgQDNsHx5H2V9NbU1XFK8\nMAFV0fHjD5CgxnGSjL8iz/FA17xtX1h/fpZ7EhkdBdAQpRdbYvYT6g9UWLzagrhy\nOUJW05SeLqDlZCMl45r2irZW9s0Xu+FKo1bsMm3AKcZ6yjQZ+QLHwVbyjbkUPiKT\nFwUV65NpS54mzojjDCKLE8HRTwKBgQC57gNgR2lv85k0UbD5LeOqTy4A7MLh/ovD\nijm4W12wc5M366SXHLqg/99Dw47eFANK6/PfZ1NbYW4pcfR3sQuIBPQJOaBJ1rDy\nVKN/IM6DoLvdbLkH6PE2g9CvtdZBYKuJs85x0wi2ShUrHOW74ICCL78XnAMMgpnN\n0/iImBuhbQKBgEvS1l/UGhaJGO69xOYIkEVxqkh4sWkDHlTWu5L6ssWjgZuT/Uyq\nfpCJwGY5gVTRdwXCOlJnAxWlzKCEdbftsa3OO0gAimFlg6tw9uwRgFwYiMxJ/ygD\nhIR3poujGr6jEYfNip/WftXVNrfmm9o7Ly3AdMvpCzjlBAMmswkv1E/zAoGAQ2Yp\naSRZ71BB0DpwydM9vUYYqhMpjhzk80xPIipUqxsqWdIdBv5OFQDMIVdpmc1taCJi\ndDCTggOumG2LrjvKr1MEV7fBCCNAX4gZAIOW+RYyI9E+vcROdHGSG6/x7B8r763z\nf0V92f6+77L5AIMgcpD2V4uhe054jKlzZaimE30CgYAplbv9qY87Nnwi54fzlrz7\nIyH1atSOZ+Q9E/CSncU6WplG6dfnN6R3DzK+UAI1+yKLDuQiUDL9pSU+NZI7CvPf\nEO3GcObGJuwLA3HWHJ5N9VTt292V7WQmrz3ALqHFMXX6A3jVHHwrT6ANyiR0FUUL\n0pzpKOO8az0YVRrNsuA0Sg==\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-kq6eg@battle-card-game.iam.gserviceaccount.com",
-  "client_id": "108195212585285111227",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-kq6eg%40battle-card-game.iam.gserviceaccount.com"
+  "type": "TODO",
+  "project_id": "TODO",
+  "private_key_id": "TODO",
+  "private_key": "TODO",
+  "client_email": "TODO",
+  "client_id": "TODO",
+  "auth_uri": "TODO",
+  "token_uri": "TODO",
+  "auth_provider_x509_cert_url": "TODO",
+  "client_x509_cert_url": "TODO"
 }
