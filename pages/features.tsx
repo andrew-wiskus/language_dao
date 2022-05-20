@@ -3,11 +3,11 @@ import React from 'react'
 
 const features = [
     { feature: `Figure out name for app`, isCompleted: false, tokenVotes: 0 },
-    { feature: `Web repo & vercel deployment`, isCompleted: false, tokenVotes: 0 },
-    { feature: `Feature list and request board`, isCompleted: false, tokenVotes: 0 },
-    { feature: `Contribution class for db integration & hash creation`, isCompleted: false, tokenVotes: 0 },
-    { feature: `/image contribution page, upload w/ multiple sentances`, isCompleted: false, tokenVotes: 0 },
-    { feature: `add sentances to images already uploaded`, isCompleted: false, tokenVotes: 0 },
+    { feature: `Web repo & vercel deployment`, isCompleted: true, tokenVotes: 0 },
+    { feature: `Feature list w/ checkmarks`, isCompleted: true, tokenVotes: 0 },
+    { feature: `Contribution class for db integration & hash creation`, isCompleted: true, tokenVotes: 0 },
+    { feature: `/add-content contribution page, upload image w/ multiple sentences`, isCompleted: true, tokenVotes: 0 },
+    { feature: `/update-content to update images already uploaded`, isCompleted: false, tokenVotes: 0 },
     { feature: `/translate to upload translations for WORDS and SENTANCES`, isCompleted: false, tokenVotes: 0 },
     { feature: `popover on /learn w/ word translations`, isCompleted: false, tokenVotes: 0 },
     { feature: `"view translation" for full sentance on /learn`, isCompleted: false, tokenVotes: 0 },
@@ -15,6 +15,9 @@ const features = [
     { feature: `-- profile with contribution listings`, isCompleted: false, tokenVotes: 0 },
     { feature: `landing page`, isCompleted: false, tokenVotes: 0 },
     { feature: `legit auth`, isCompleted: false, tokenVotes: 0 },
+    { feature: `input to add to feature list page`, isCompleted: false, tokenVotes: 0 },
+    { feature: `upload smaller images than sorce if > (x)MB lol`, isCompleted: false, tokenVotes: 0 },
+    { feature: `able to 'choose random photo' instead of uploading`, isCompleted: false, tokenVotes: 0 }
 ]
 
 const CHECKBOX = `border-[3px] border-[black] rounded h-[25px] w-[25px]`
