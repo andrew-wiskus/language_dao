@@ -100,7 +100,7 @@ const AddContentPage = () => {
     }
 
 
-    const TEXT_AREA = `border-2 border-[black] rounded p-4`
+    const TEXT_AREA = `border-2 border-[black] rounded p-4 text-[12px]`
     const forceNoScrollWithOverlay = uploadState != UploadState.NULL ? { overflow: `hidden`, height: '100vh' } : {}
 
     const uploadImages = () => {
@@ -154,7 +154,7 @@ const AddContentPage = () => {
                             [{Language.PrettyPrint(languageCode)}]
                         </button>
 
-                        <form onSubmit={(e) => handleFireBaseUpload(account, e)} className='flex flex-col'>
+                        <form onSubmit={(e) => handleFireBaseUpload(account!, e)} className='flex flex-col'>
 
 
                             <label className="mb-10 w-full border-2 border-black rounded h-[90vw] flex-center cursor-pointer hover:border-[4px] shadow-none hover:shadow-xl text-base" style={{ transition: 'all 0.15s ease-in', ...(imageSrc == null ? { height: 60 } : {}) }}>
@@ -175,13 +175,13 @@ const AddContentPage = () => {
                             {imageSrc &&
                                 <>
                                     <p className='mt-4'>{`Simple`}</p>
-                                    <textarea className='text-[12px]' value={textLevel1} onChange={(e) => setTextLevel1(e.target.value)} className={TEXT_AREA} cols={2} rows={1} placeholder={`A small house`} />
+                                    <textarea className={TEXT_AREA} value={textLevel1} onChange={(e) => setTextLevel1(e.target.value)} cols={2} rows={1} placeholder={`A small house`} />
                                     <p className='mt-4'>{'Descriptive'}</p>
-                                    <textarea className='text-[12px]' value={textLevel2} onChange={(e) => setTextLevel2(e.target.value)} className={TEXT_AREA} cols={2} rows={2} placeholder={`This is a wooden, small, big windowed home'`} />
+                                    <textarea className={TEXT_AREA} value={textLevel2} onChange={(e) => setTextLevel2(e.target.value)} cols={2} rows={2} placeholder={`This is a wooden, small, big windowed home'`} />
                                     <p className='mt-4'>{'Verbose'}</p>
-                                    <textarea className='text-[12px]' value={textLevel3} onChange={(e) => setTextLevel3(e.target.value)} className={TEXT_AREA} cols={2} rows={3} placeholder={`An artsy yet tasteful example of a minimalist's retreat`} />
+                                    <textarea className={TEXT_AREA} value={textLevel3} onChange={(e) => setTextLevel3(e.target.value)} cols={2} rows={3} placeholder={`An artsy yet tasteful example of a minimalist's retreat`} />
                                     <p className='mt-4'>{`Overly Verbose`}</p>
-                                    <textarea className='text-[12px]' value={textLevel4} onChange={(e) => setTextLevel4(e.target.value)} className={TEXT_AREA} cols={2} rows={4} placeholder={`To the frugal yet fortuitous, this pequiliar building seems like an oasis for the nonchalant `} />
+                                    <textarea className={TEXT_AREA} value={textLevel4} onChange={(e) => setTextLevel4(e.target.value)} cols={2} rows={4} placeholder={`To the frugal yet fortuitous, this pequiliar building seems like an oasis for the nonchalant `} />
                                     <button className='mt-8'>upload contribution</button>
                                 </>
                             }
