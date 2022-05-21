@@ -24,6 +24,12 @@ export interface TextDescriptions {
 
 export class Contribute {
 
+    public static async updateTranslation(wordKey: string, aspect: ('notes' | 'translation' | 'class'), languageCode: string, value: string) {
+        // xx uuid, hash creation
+
+        DataController.updateTranslation(wordKey, aspect, languageCode, value)
+    }
+
     public static async updateImageData(updatePayload: any) {
         const itemsToUpdate = Object.keys(updatePayload);
 
@@ -74,6 +80,16 @@ export class Contribute {
 }
 
 class DataController {
+    public static updateTranslation(wordKey: string, aspect: ('notes' | 'translation' | 'class'), languageCode: string, value: string) {
+        const db = getDatabase();
+
+        const contentRef = ref(db, `translation/${languageCode}/${wordKey}/${aspect}`)
+        set(contentRef, value);
+
+        // xx add contribution hash
+    }
+
+    // xx no more any
     public static uploadImage(hash: string, data: any) {
         const db = getDatabase();
         const contributionRef = ref(db, 'contributions/' + hash)
@@ -87,6 +103,8 @@ class DataController {
         const db = getDatabase();
         const r = ref(db, `/content/imageAndText/${hash}/textData/${textKey}`);
         set(r, value);
+
+        // xx add contribution hash
     }
 }
 

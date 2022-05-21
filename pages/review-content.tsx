@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { initializeApp } from "firebase/app";
 import { get, getDatabase, ref } from 'firebase/database';
 import { Contribute, TextDescriptions } from '../web3/Contribute';
+import { ImageWithDescriptions } from './translate';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -11,14 +12,6 @@ import { Contribute, TextDescriptions } from '../web3/Contribute';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-export interface ImageWithDescriptions {
-    contributor: string;
-    date: number;
-    earnedtokens: number;
-    hash: string;
-    imageUrl: string;
-    textData: TextDescriptions
-}
 
 const AddContentPage = () => {
 

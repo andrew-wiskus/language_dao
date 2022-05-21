@@ -35,7 +35,7 @@ const AddContentPage = () => {
         setTextLevel4('');
     }
 
-    const handleImageAsFile = (e) => {
+    const handleImageAsFile = (e: any) => {
         console.log(e);
         const image = e.target.files[0]
         setImageAsFile(() => (image))

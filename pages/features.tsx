@@ -20,6 +20,8 @@ const features = [
     { feature: `upload smaller images than sorce if > (x)MB lol`, isCompleted: false, tokenVotes: 0 },
     { feature: `able to 'choose random photo' instead of uploading`, isCompleted: false, tokenVotes: 0 },
     { feature: `add ability to tag images so we can sort/categorize them`, isCompleted: false, tokenVotes: 0 },
+    { feature: `ability to translate all app copy and set pref language`, isComplete: false, tokenVotes: 0 },
+    { feature: `choose language code when uploading content`, isComplete: false, tokenVotes: 0 },
 ]
 
 const CHECKBOX = `border-[3px] border-[black] rounded h-[25px] w-[25px]`
