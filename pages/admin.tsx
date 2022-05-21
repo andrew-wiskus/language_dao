@@ -52,7 +52,7 @@ const AddContentPage = () => {
     }
 
     const updateDatabase = () => {
-        Contribute.updateImageData({ ...hasBeenUpdatedList });
+        Contribute.updateImageData(languageCode, { ...hasBeenUpdatedList });
         setHasBeenUpdatedList({})
     }
 

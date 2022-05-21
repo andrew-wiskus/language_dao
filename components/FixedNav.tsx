@@ -42,7 +42,7 @@ export const FixedNav = () => {
     return (
         <>
 
-            <div className='fixed top-0 left-0 right-0 h-[60px] bg-[#FFDC00] flex items-center p-4 justify-between'>
+            <div className='fixed top-0 left-0 right-0 h-[60px] bg-[#FFDC00] flex items-center p-4 justify-between' style={{ zIndex: 9999 }}>
                 <h1 className='text-[#111111]'>nativeterms</h1>
                 <button className='h-full p-0 border-none' onClick={() => setMenuShowing(true)}>
                     <img src='/menu.svg' className='h-full' />

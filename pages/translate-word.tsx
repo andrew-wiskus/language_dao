@@ -21,7 +21,7 @@ export interface LearnItemMetaData {
     imageUrl: string;
     languageCode: string;
     textData: TextDescriptions;
-    translations: { [languageCode: string]: string }
+    translations: { [languageCode: string]: TextDescriptions }
 }
 
 export interface Translation {
@@ -65,11 +65,21 @@ const TranslateWordsPage = () => {
     const [translateToLanguage, setTranslateToLanguage] = useState('es');
     const [allWords, setAllWords] = useState<MappedTranslation[]>([])
     const [shouldHideTranslated, setShouldHideTranslated] = useState(true);
+    const [isSettingLanguagePref, setIsSettingLanguagePref] = useState<any>(true);
+    const [currentTypeSetting, setCurrentTypeSetting] = useState('');
 
     async function getAllContent() {
         const db = getDatabase();
         const r = ref(db, 'content/' + translateFromLanguage);
         const snapshot = await get(r) as any;
+        if (snapshot == null || snapshot.val() == null) {
+            console.log("SNAP IS NULL");
+            setAllWords([])
+            setAllTranslationInputs({})
+            setAllNotesInputs({})
+
+            return;
+        }
         const imageAndText = Object.entries(snapshot.val()).map(x => x[1]) as LearnItemMetaData[];
 
         const wordList = imageAndText.reduce((base: any, item) => {
@@ -154,7 +164,7 @@ const TranslateWordsPage = () => {
 
     useEffect(() => {
         getAllContent();
-    }, [])
+    }, [isSettingLanguagePref])
 
     const updateDatabase = () => {
         const translateCode = Language.TranslateCode(translateFromLanguage, translateToLanguage);
@@ -194,7 +204,6 @@ const TranslateWordsPage = () => {
         })
 
         setHasBeenUpdatedList({ notes: {}, translation: {}, class: {} });
-
     }
 
     const updateTranslationPref = () => {
@@ -237,66 +246,119 @@ const TranslateWordsPage = () => {
         setHasBeenUpdatedList({ ...updateList })
     }
 
+    const setLanguagePref = () => {
+        setIsSettingLanguagePref(true);
+    }
+
+    const setTranslate = (languageCode: string) => {
+        window.scrollTo(0, 0);
+        if (currentTypeSetting == 'FROM') {
+            setTranslateFromLanguage(languageCode)
+            setCurrentTypeSetting('TO')
+        } else {
+            setTranslateToLanguage(languageCode)
+            setCurrentTypeSetting('FROM')
+        }
+    }
+
     return (
         <div className='w-full flex flex-col justify-center items-center'>
             <div className='w-max-[1200px] w-full flex flex-col px-[5vw] pb-[100px] pt-[280px]'>
                 <FixedNav />
 
-                <button onClick={updateDatabase} className='fixed top-[60px] left-0 right-0 h-[60px] bg-[#0074D9] m-0 p-0 flex-center border-0'>
-                    {`SAVE UPDATES TO 
-                    ${Object.keys(hasBeenUpdatedList).reduce((prev: any, key: unknown) => {
-                        return prev + Object.keys(hasBeenUpdatedList[key as keyof UpdateableTranslationData]).length;
-                    }, 0)}
-                     ITEMS`}
-                </button>
-                <button onClick={updateDatabase} className='fixed top-[120px] left-0 right-0 h-[60px] bg-[#3D9970] m-0 p-0 flex-center border-0'>
-                    {`Translating ${Language.PrettyPrint(translateFromLanguage)} to ${Language.PrettyPrint(translateToLanguage)}`}
-                </button>
-                <button onClick={() => setShouldHideTranslated(!shouldHideTranslated)} className='fixed top-[180px] left-0 right-0 h-[60px] bg-[#39CCCC] m-0 p-0 flex-center border-0'>
-                    {`${shouldHideTranslated ? 'Show' : 'Hide'} Translated`}
-                </button>
+                {isSettingLanguagePref ?
+                    <div className='flex flex-center flex-col'>
+                        <button onClick={() => setIsSettingLanguagePref(false)} className='fixed top-[60px] left-0 right-0 h-[60px] bg-[#7FDBFF] m-0 p-0 flex-center border-0' style={{ zIndex: 9999 }} >
+                            {`Go Back`}
+                        </button>
 
+                        <div className=' flex flex-center flex-col w-full px-4 fixed top-[120px] h-[240px] bg-[white] py-4'>
+                            <p className='text-[12px] font-bold mt-[50px]'>current:</p>
 
-                {allWords.map(word => {
-                    const BUTTON = 'w-[50px] mx-2 text-[12px] text-[#333] border rounded'
-                    const isWordClass = (key: string) => {
-                        let color = '';
-                        switch (key) {
-                            case 'noun':
-                                color = '#001f3f';
-                                break;
-                            case 'adjetive':
-                                color = '#85144b';
-                                break;
-                            case 'verb':
-                                color = '#3D9970';
-                                break;
-                            case 'glue':
-                                color = '#39CCCC';
-                                break;
-                        }
+                            <h1 className='text-center font-bold text-[14px] mb-4'>{`Translate (${Language.PrettyPrint(translateFromLanguage)}) To (${Language.PrettyPrint(translateToLanguage)})`}</h1>
 
-                        if (word.class == key) {
-                            return { backgroundColor: color, color: 'white' }
-                        }
-                    }
+                            <button style={{ opacity: currentTypeSetting != 'FROM' ? 0.5 : 1, backgroundColor: currentTypeSetting == 'FROM' ? '#FFDC00' : '#DDD' }} onClick={() => setCurrentTypeSetting('FROM')} className='text-sm w-full'>{`Set "Translate From" Language`}</button>
+                            <button style={{ opacity: currentTypeSetting != 'TO' ? 0.5 : 1, backgroundColor: currentTypeSetting == 'TO' ? '#FFDC00' : '#DDD' }} onClick={() => setCurrentTypeSetting('TO')} className='text-sm w-full'>{`Set "Translate To" Language`} </button>
 
-                    if (shouldHideTranslated == true && word.translation != '') {
-                        return null;
-                    }
-
-                    return <div className='w-full p-4 border rounded my-2' key={word.key}>
-                        <p className='text-center text-2xl'>{word.string}</p>
-                        <input value={allTranslationInputs[word.key] || ''} onChange={e => updateTranslationInput(word.key, e.target.value)} className='w-full text-center px-2' placeholder='??' />
-                        <textarea value={allNotesInputs[word.key] || ''} onChange={e => updateNotesInput(word.key, e.target.value)} placeholder='notes?' rows={3} className='border w-full px-2 text-[12px]' />
-                        <div className='flex flex-row w-full flex-center'>
-                            <button onClick={() => onClickWordClass(word.key, `noun`)} style={isWordClass('noun')} className={BUTTON}>noun</button>
-                            <button onClick={() => onClickWordClass(word.key, `verb`)} style={isWordClass('verb')} className={BUTTON}>verb</button>
-                            <button onClick={() => onClickWordClass(word.key, `adjetive`)} style={isWordClass('adjetive')} className={BUTTON}>adj</button>
-                            <button onClick={() => onClickWordClass(word.key, `glue`)} style={isWordClass('glue')} className={BUTTON}>glue</button>
+                        </div>
+                        <div className='mt-[120px]'>
+                            {ALL_LANGUAGES.map(x => {
+                                return (
+                                    <div onClick={() => setTranslate(x.id)} className='w-full border p-2 rounded my-2 text-left'>
+                                        <span className='text-[10px]'>{currentTypeSetting == 'FROM' ? 'Transate From: ' : `Translate (${Language.PrettyPrint(translateFromLanguage)}) To: `}</span>
+                                        <br />
+                                        <span>{x.name}</span>
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
-                })}
+                    :
+                    <>
+
+                        <button onClick={updateDatabase} className='fixed top-[60px] left-0 right-0 h-[60px] bg-[#0074D9] m-0 p-0 flex-center border-0'>
+                            {`SAVE UPDATES TO 
+                    ${Object.keys(hasBeenUpdatedList).reduce((prev: any, key: unknown) => {
+                                return prev + Object.keys(hasBeenUpdatedList[key as keyof UpdateableTranslationData]).length;
+                            }, 0)}
+                     ITEMS`}
+                        </button>
+                        <button onClick={setLanguagePref} className='fixed top-[120px] left-0 right-0 h-[60px] bg-[#3D9970] m-0 p-0 flex-center border-0'>
+                            {`Translating ${Language.PrettyPrint(translateFromLanguage)} to ${Language.PrettyPrint(translateToLanguage)}`}
+                        </button>
+                        <button onClick={() => setShouldHideTranslated(!shouldHideTranslated)} className='fixed top-[180px] left-0 right-0 h-[60px] bg-[#39CCCC] m-0 p-0 flex-center border-0'>
+                            {`${shouldHideTranslated ? 'Show' : 'Hide'} Translated`}
+                        </button>
+
+                        {allWords.length == 0 &&
+                            <>
+                                <p className='text-[12px] font-bold text-center mt-20'>no content found :[</p>
+                                <button className='rounded bg-[#7FDBFF]'>contribute</button>
+                            </>
+                        }
+
+                        {allWords.map(word => {
+                            const BUTTON = 'w-[50px] mx-2 text-[12px] text-[#333] border rounded'
+                            const isWordClass = (key: string) => {
+                                let color = '';
+                                switch (key) {
+                                    case 'noun':
+                                        color = '#001f3f';
+                                        break;
+                                    case 'adjetive':
+                                        color = '#85144b';
+                                        break;
+                                    case 'verb':
+                                        color = '#3D9970';
+                                        break;
+                                    case 'glue':
+                                        color = '#39CCCC';
+                                        break;
+                                }
+
+                                if (word.class == key) {
+                                    return { backgroundColor: color, color: 'white' }
+                                }
+                            }
+
+                            if (shouldHideTranslated == true && word.translation != '') {
+                                return null;
+                            }
+
+                            return <div className='w-full p-4 border rounded my-2' key={word.key}>
+                                <p className='text-center text-2xl'>{word.string}</p>
+                                <input value={allTranslationInputs[word.key] || ''} onChange={e => updateTranslationInput(word.key, e.target.value)} className='w-full text-center px-2' placeholder='??' />
+                                <textarea value={allNotesInputs[word.key] || ''} onChange={e => updateNotesInput(word.key, e.target.value)} placeholder='notes?' rows={3} className='border w-full px-2 text-[12px]' />
+                                <div className='flex flex-row w-full flex-center'>
+                                    <button onClick={() => onClickWordClass(word.key, `noun`)} style={isWordClass('noun')} className={BUTTON}>noun</button>
+                                    <button onClick={() => onClickWordClass(word.key, `verb`)} style={isWordClass('verb')} className={BUTTON}>verb</button>
+                                    <button onClick={() => onClickWordClass(word.key, `adjetive`)} style={isWordClass('adjetive')} className={BUTTON}>adj</button>
+                                    <button onClick={() => onClickWordClass(word.key, `glue`)} style={isWordClass('glue')} className={BUTTON}>glue</button>
+                                </div>
+                            </div>
+                        })}
+                    </>
+                }
             </div>
         </div>
     )

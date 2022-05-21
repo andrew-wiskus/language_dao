@@ -1,8 +1,8 @@
 export class Language {
     public static PrettyPrint(keyCode: string) {
         const prettyName = ALL_LANGUAGES.find(x => x.id == keyCode)?.name;;
-        console.assert(prettyName != undefined, "wrong language code supplied")
-        return prettyName!;
+        // console.assert(prettyName != undefined, "wrong language code supplied")
+        return prettyName || '???';
     }
 
     public static TranslateCode(keyFrom: string, keyTo: string) {

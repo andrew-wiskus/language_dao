@@ -25,13 +25,25 @@ export interface TextDescriptions {
 
 export class Contribute {
 
+    public static async TranslateFull(wallet: string, fromLanguage: string, toLanguage: string, payload: any) {
+        console.log(payload);
+        const db = getDatabase();
+
+        Object.keys(payload).forEach(itemHash => {
+            Object.keys(payload[itemHash]).forEach(key => {
+                const r = ref(db, `content/${fromLanguage}/${itemHash}/translations/${toLanguage}/${key}`)
+                set(r, payload[itemHash][key])
+            })
+        })
+    }
+
     public static async updateTranslation(wordKey: string, aspect: ('notes' | 'translation' | 'class'), languageCode: string, value: string) {
         // xx uuid, hash creation
 
         DataController.updateTranslation(wordKey, aspect, languageCode, value)
     }
 
-    public static async updateImageData(updatePayload: any) {
+    public static async updateImageData(languageCode: string, updatePayload: any) {
         const itemsToUpdate = Object.keys(updatePayload);
 
         itemsToUpdate.forEach((hash: any) => {
@@ -39,14 +51,14 @@ export class Contribute {
             textToUpdate.forEach((key: any) => {
                 const textKey = key;
                 const value = updatePayload[hash][key];
-                DataController.updateTextDescriptionForItem(hash, textKey, value)
+                DataController.updateTextDescriptionForItem(languageCode, hash, textKey, value)
             })
         })
     }
 
-    public static async uploadImage(storage: any, imageAsFile: any, textData: TextDescriptions, invokeCalback: () => void) {
+    public static async uploadImage(wallet: string, languageCode: string, storage: any, imageAsFile: any, textData: TextDescriptions, invokeCalback: () => void) {
         const hash = 'II' + fakeHash();
-        const uuid = 'todo-uuid'
+        const uuid = wallet;
 
         const storageRef = sRef(storage, `content/${hash}`);
 
@@ -67,10 +79,11 @@ export class Contribute {
                         contributor: uuid,
                         imageUrl: downloadURL,
                         textData,
-                        earnedtokens: 10.00
+                        earnedtokens: 10.00,
+                        languageCode: languageCode,
                     }
 
-                    DataController.uploadImage(hash, data);
+                    DataController.uploadImage(languageCode, hash, data);
 
                     invokeCalback();
                 });
@@ -116,18 +129,18 @@ class DataController {
     }
 
     // xx no more any
-    public static uploadImage(hash: string, data: any) {
+    public static uploadImage(languageCode: string, hash: string, data: any) {
         const db = getDatabase();
         const contributionRef = ref(db, 'contributions/' + hash)
         set(contributionRef, data);
 
-        const contentRef = ref(db, 'content/imageAndText/' + hash)
+        const contentRef = ref(db, `content/${languageCode}/${hash}`)
         set(contentRef, data);
     }
 
-    public static updateTextDescriptionForItem(hash: string, textKey: string, value: string) {
+    public static updateTextDescriptionForItem(languageCode: string, hash: string, textKey: string, value: string) {
         const db = getDatabase();
-        const r = ref(db, `/content/imageAndText/${hash}/textData/${textKey}`);
+        const r = ref(db, `/content/${languageCode}/${hash}/textData/${textKey}`);
         set(r, value);
 
         // xx add contribution hash
