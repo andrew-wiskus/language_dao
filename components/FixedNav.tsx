@@ -1,11 +1,44 @@
+import { DataSnapshot, get, getDatabase, onValue, ref, set } from "firebase/database";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useWalletContext } from "../web3/useWalletContext";
 
 export const FixedNav = () => {
     const [menuShowing, setMenuShowing] = useState(false);
+    const { connect, account } = useWalletContext()
+    const [tokenCount, setTokenCount] = useState(0);
 
     const colors = [`#`]
     const isHidden = menuShowing ? {} : { transform: `translateX(100vw)`, opacity: 0 }
+
+    useEffect(() => {
+        if (account == undefined) {
+            return;
+        }
+        const db = getDatabase();
+        const accountRef = ref(db, `account/${account}`)
+
+        const incrementUselessAccountProp = async () => {
+            const acc = await get(accountRef)
+            if (acc == null || acc.val() == null) {
+                set(accountRef, { NGU: 0 })
+            } else {
+                set(accountRef, { ...acc.val(), NGU: acc.val().NGU + 1 })
+            }
+        }
+
+        incrementUselessAccountProp();
+
+        onValue(accountRef, (snapshot: DataSnapshot) => {
+            if (snapshot == null || snapshot.val() == null) {
+                return;
+            }
+
+            const tokenCount = snapshot.val().tokenCount || 0;
+            setTokenCount(tokenCount);
+        })
+    }, [account])
+
     return (
         <>
 
@@ -25,7 +58,7 @@ export const FixedNav = () => {
                     </div>
                     <div className='bg-[#0074D9] w-full p-4 flex flex-row items-center' style={{ height: `calc((100vh - 180vw )/ 2)` }}>
                         <img src='/token.svg' className='h-full' />
-                        <h1 className='ml-4 text-[#111]'>3910.00 NTV</h1>
+                        <h1 className='ml-4 text-[#111]'>{`${tokenCount} NTV`}</h1>
                     </div>
                     <div>
                         <div className='grid grid-cols-2 w-full gap-0'>

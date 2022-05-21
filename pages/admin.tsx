@@ -18,6 +18,7 @@ const AddContentPage = () => {
     const [imagesWithDescriptions, setImagesWithDescriptions] = useState<LearnItemMetaData[]>([])
     const [input, setInput] = useState<any>(null);
     const [hasBeenUpdatedList, setHasBeenUpdatedList] = useState<any>({});
+    const [languageCode, setLanguageCode] = useState('en');
 
     async function getAllContent() {
         const db = getDatabase();
@@ -25,9 +26,9 @@ const AddContentPage = () => {
         const snapshot = await get(r) as any;
         const data = snapshot.val();
 
-        const dataArray = Object.keys(data.imageAndText).map(key => {
+        const dataArray = Object.keys(data[languageCode]).map(key => {
             return {
-                ...data.imageAndText[key]
+                ...data[languageCode][key]
             }
         }) as LearnItemMetaData[];
 

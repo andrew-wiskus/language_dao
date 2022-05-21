@@ -1,7 +1,7 @@
 import React from 'react'
 import { FixedNav } from '../components/FixedNav';
 
-class CommunityPage extends React.Component<{}, {}> {
+class ProfilePage extends React.Component<{}, {}> {
 
     public render() {
         return (
@@ -18,5 +18,5 @@ class CommunityPage extends React.Component<{}, {}> {
     }
 }
 
-export default CommunityPage
+export default ProfilePage
 
