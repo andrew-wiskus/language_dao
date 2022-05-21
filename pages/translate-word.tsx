@@ -13,14 +13,15 @@ import { FixedNav } from '../components/FixedNav';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-export interface ImageWithDescriptions {
+export interface LearnItemMetaData {
     contributor: string;
     date: number;
     earnedtokens: number;
     hash: string;
     imageUrl: string;
     languageCode: string;
-    textData: TextDescriptions
+    textData: TextDescriptions;
+    translations: { [languageCode: string]: string }
 }
 
 export interface Translation {
@@ -28,7 +29,7 @@ export interface Translation {
     string: string;
     languageCode: string;
     class: WordClass,
-    translation: { [languageCode: string]: string },
+    translation: { [languageCode: string]: string[] },
     hashOccurances: string[],
     notes: { [languageCode: string]: string },
     hidden: boolean,
@@ -67,9 +68,9 @@ const TranslateWordsPage = () => {
 
     async function getAllContent() {
         const db = getDatabase();
-        const r = ref(db, 'content/imageAndText');
+        const r = ref(db, 'content/' + translateFromLanguage);
         const snapshot = await get(r) as any;
-        const imageAndText = Object.entries(snapshot.val()).map(x => x[1]) as ImageWithDescriptions[];
+        const imageAndText = Object.entries(snapshot.val()).map(x => x[1]) as LearnItemMetaData[];
 
         const wordList = imageAndText.reduce((base: any, item) => {
             const allWords = Object.values(item.textData).reduce((str, x) => {
@@ -78,7 +79,7 @@ const TranslateWordsPage = () => {
 
             let out = { ...base[item.languageCode] }
             allWords.forEach((w: string) => {
-                const word = w.toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "").trim();
+                const word = w.toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "").trim(); // xx move to func
                 if (out[word] == undefined) {
                     out[word] = {}
                 }
@@ -114,8 +115,8 @@ const TranslateWordsPage = () => {
         const translationRef = ref(db, 'translation');
         const translationSnap = await get(translationRef) as any;
         const translationDB = translationSnap.val();
-        const translations = translationDB[Language.TranslateCode(translateFromLanguage, translateToLanguage)]
 
+        const translations = translationDB != null ? translationDB[Language.TranslateCode(translateFromLanguage, translateToLanguage)] : {}
 
         const translationsForDisplay = wordKeyList.map(word => {
             const update: UpdateableTranslationData = translations[word.key] || {};
@@ -158,21 +159,42 @@ const TranslateWordsPage = () => {
     const updateDatabase = () => {
         const translateCode = Language.TranslateCode(translateFromLanguage, translateToLanguage);
 
+        // xx DRY pls
         Object.entries(hasBeenUpdatedList.notes).forEach(entry => {
             const wordKey = entry[0] as string;
             const value = entry[1] as string;
             Contribute.updateTranslation(wordKey, 'notes', translateCode, value);
+
+            const out = [...allWords]
+            const index = out.findIndex(x => x.key == wordKey)
+            out[index].notes = value;
+            setAllWords([...out]);
         })
+
         Object.entries(hasBeenUpdatedList.translation).forEach(entry => {
             const wordKey = entry[0] as string;
             const value = entry[1] as string;
             Contribute.updateTranslation(wordKey, 'translation', translateCode, value);
+
+            const out = [...allWords]
+            const index = out.findIndex(x => x.key == wordKey)
+            out[index].translation = value;
+            setAllWords([...out]);
         })
+
         Object.entries(hasBeenUpdatedList.class).forEach(entry => {
             const wordKey = entry[0] as string;
             const value = entry[1] as string;
             Contribute.updateTranslation(wordKey, 'class', translateCode, value);
+
+            const out = [...allWords]
+            const index = out.findIndex(x => x.key == wordKey)
+            out[index].class = value as WordClass;
+            setAllWords([...out]);
         })
+
+        setHasBeenUpdatedList({ notes: {}, translation: {}, class: {} });
+
     }
 
     const updateTranslationPref = () => {

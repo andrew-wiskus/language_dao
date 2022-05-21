@@ -1,6 +1,7 @@
 import { getDownloadURL, ref as sRef, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import moment from "moment";
-import { getDatabase, ref, push, set, update } from 'firebase/database';
+import { getDatabase, ref, push, set, update, get } from 'firebase/database';
+import { Language } from "../languageDex";
 
 // xxx 
 export function fakeHash() {
@@ -80,13 +81,38 @@ export class Contribute {
 }
 
 class DataController {
-    public static updateTranslation(wordKey: string, aspect: ('notes' | 'translation' | 'class'), languageCode: string, value: string) {
+    public static async updateTranslation(wordKey: string, aspect: ('notes' | 'translation' | 'class'), languageCode: string, value: string) {
         const db = getDatabase();
 
         const contentRef = ref(db, `translation/${languageCode}/${wordKey}/${aspect}`)
-        set(contentRef, value);
 
-        // xx add contribution hash
+        const flipRef = (word: string) => {
+            return ref(db, `translation/${Language.FlipCode(languageCode)}/${Language.GetWordKey(word)}/${aspect}`)
+        }
+
+        if (aspect == 'translation') {
+
+            // from:to
+            value.split(',').forEach(async v => {
+                const word = Language.GetWordKey(v);
+                let fromLanguage_translation = await get(flipRef(word))
+                if (fromLanguage_translation == null || fromLanguage_translation.val() == null) {
+                    set(flipRef(word), wordKey);
+                } else {
+                    let items = fromLanguage_translation.val().split(',').map((x: string) => Language.GetWordKey(x))
+                    if (items.find((x: string) => x == wordKey) == undefined) {
+                        items.push(wordKey)
+                    }
+                    set(flipRef(word), items.join(', '))
+                }
+            })
+            // end;
+
+            set(contentRef, value)
+
+        } else {
+            set(contentRef, value);
+        }
     }
 
     // xx no more any

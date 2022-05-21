@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { Contribute, TextDescriptions } from '../web3/Contribute';
 import { storage } from './_app';
+import { FixedNav } from '../components/FixedNav';
 
 enum UploadState {
     NULL = 'NULL',
@@ -95,36 +96,55 @@ const AddContentPage = () => {
 
     const TEXT_AREA = `border-2 border-[black] rounded p-4`
     const forceNoScrollWithOverlay = uploadState != UploadState.NULL ? { overflow: `hidden`, height: '100vh' } : {}
+
+    const uploadImages = () => {
+
+    }
+
     return (
-        <div className='w-full flex flex-col justify-center items-center'>
+        <div className='w-full flex flex-col justify-center items-center pt-[70px]'>
+            <FixedNav />
+
+
+
             <div className='w-max-[1200px] w-full flex flex-col px-[5vw] pb-[100px] pt-4' style={forceNoScrollWithOverlay}>
+                <button onClick={uploadImages} className='mb-4 w-full h-[60px] border-[2px] rounded border-[#0074D9] m-0 p-0 flex-center'>
+                    {`multi-upload`}
+                </button>
+
+
                 <form onSubmit={handleFireBaseUpload} className='flex flex-col'>
 
-                    <label className="mb-10 w-full border-2 border-black rounded h-[90vw] flex-center cursor-pointer hover:border-[4px] shadow-none hover:shadow-xl text-[5vw] hover:text-[5.1vw]" style={{ transition: 'all 0.15s ease-in' }}>
+
+                    <label className="mb-10 w-full border-2 border-black rounded h-[90vw] flex-center cursor-pointer hover:border-[4px] shadow-none hover:shadow-xl text-base" style={{ transition: 'all 0.15s ease-in', ...(imageSrc == null ? { height: 60 } : {}) }}>
                         <input
                             className='hidden'
                             type="file"
                             onChange={handleImageAsFile}
-
                         />
                         {imageSrc == null ?
                             <div>
-                                + Upload Image +
+                                single image w/ content
                             </div>
                             :
                             <img src={imageSrc} className='h-full w-full object-cover' />
                         }
                     </label>
 
-                    <p className='mt-4'>{`Simple`}</p>
-                    <textarea value={textLevel1} onChange={(e) => setTextLevel1(e.target.value)} className={TEXT_AREA} cols={2} rows={1} placeholder={`A small house`} />
-                    <p className='mt-4'>{'Descriptive'}</p>
-                    <textarea value={textLevel2} onChange={(e) => setTextLevel2(e.target.value)} className={TEXT_AREA} cols={2} rows={2} placeholder={`This is a wooden, small, big windowed home'`} />
-                    <p className='mt-4'>{'Verbose'}</p>
-                    <textarea value={textLevel3} onChange={(e) => setTextLevel3(e.target.value)} className={TEXT_AREA} cols={2} rows={3} placeholder={`An artsy yet tasteful example of a minimalist's retreat`} />
-                    <p className='mt-4'>{`Overly Verbose`}</p>
-                    <textarea value={textLevel4} onChange={(e) => setTextLevel4(e.target.value)} className={TEXT_AREA} cols={2} rows={4} placeholder={`To the frugal yet fortuitous, this pequiliar building seems like an oasis for the nonchalant `} />
-                    <button className='mt-8'>upload contribution</button>
+                    {imageSrc &&
+                        <>
+                            <p className='mt-4'>{`Simple`}</p>
+                            <textarea value={textLevel1} onChange={(e) => setTextLevel1(e.target.value)} className={TEXT_AREA} cols={2} rows={1} placeholder={`A small house`} />
+                            <p className='mt-4'>{'Descriptive'}</p>
+                            <textarea value={textLevel2} onChange={(e) => setTextLevel2(e.target.value)} className={TEXT_AREA} cols={2} rows={2} placeholder={`This is a wooden, small, big windowed home'`} />
+                            <p className='mt-4'>{'Verbose'}</p>
+                            <textarea value={textLevel3} onChange={(e) => setTextLevel3(e.target.value)} className={TEXT_AREA} cols={2} rows={3} placeholder={`An artsy yet tasteful example of a minimalist's retreat`} />
+                            <p className='mt-4'>{`Overly Verbose`}</p>
+                            <textarea value={textLevel4} onChange={(e) => setTextLevel4(e.target.value)} className={TEXT_AREA} cols={2} rows={4} placeholder={`To the frugal yet fortuitous, this pequiliar building seems like an oasis for the nonchalant `} />
+                            <button className='mt-8'>upload contribution</button>
+                        </>
+                    }
+
                 </form>
             </div>
 

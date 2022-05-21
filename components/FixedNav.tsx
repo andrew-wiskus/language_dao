@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export const FixedNav = () => {
-    const [menuShowing, setMenuShowing] = useState(true);
+    const [menuShowing, setMenuShowing] = useState(false);
 
     const colors = [`#`]
     const isHidden = menuShowing ? {} : { transform: `translateX(100vw)`, opacity: 0 }
@@ -29,11 +29,11 @@ export const FixedNav = () => {
                     </div>
                     <div>
                         <div className='grid grid-cols-2 w-full gap-0'>
-                            <LinkButton link='/grow' text='grow' icon={'/brain.svg'} index={0} />
+                            <LinkButton link='/learn' text='learn' icon={'/brain.svg'} index={0} />
                             <LinkButton link='/progress' text='progress' icon={'/growth.svg'} index={1} />
                             <LinkButton link='/contribute' text='contribute' icon={'/puzzle.svg'} index={2} imageClass='p-2' />
                             <LinkButton link='/vote' text='vote' icon={'/vote.svg'} index={3} imageClass='p-2' />
-                            <LinkButton link='/translate-words' text='translate (words)' icon={'/translate.svg'} index={4} imageClass='p-2' />
+                            <LinkButton link='/translate-word' text='translate (words)' icon={'/translate.svg'} index={4} imageClass='p-2' />
                             <LinkButton link='/translate-full' text='translate (full)' icon={'/languages.svg'} index={5} imageClass='p-2' />
                             <LinkButton link='/community' text='community' icon={'/list.svg'} index={6} imageClass='p-2' />
                             <LinkButton link='/profile' text='profile' icon={'/resume.svg'} index={7} imageClass='p-2' />

@@ -8,6 +8,15 @@ export class Language {
     public static TranslateCode(keyFrom: string, keyTo: string) {
         return keyFrom + ":" + keyTo;
     }
+
+    public static GetWordKey(word: string) {
+        return word.toLowerCase().toLowerCase().replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "").trim()
+    }
+
+    public static FlipCode(code: string) {
+        const split = code.split(':')
+        return split[1] + ":" + split[0]
+    }
 }
 
 export const ALL_LANGUAGES = [

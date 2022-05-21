@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { initializeApp } from "firebase/app";
 import { get, getDatabase, ref } from 'firebase/database';
 import { Contribute, TextDescriptions } from '../web3/Contribute';
-import { ImageWithDescriptions } from './translate-words';
+import { LearnItemMetaData } from './translate-word';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -15,7 +15,7 @@ import { ImageWithDescriptions } from './translate-words';
 
 const AddContentPage = () => {
 
-    const [imagesWithDescriptions, setImagesWithDescriptions] = useState<ImageWithDescriptions[]>([])
+    const [imagesWithDescriptions, setImagesWithDescriptions] = useState<LearnItemMetaData[]>([])
     const [input, setInput] = useState<any>(null);
     const [hasBeenUpdatedList, setHasBeenUpdatedList] = useState<any>({});
 
@@ -29,7 +29,7 @@ const AddContentPage = () => {
             return {
                 ...data.imageAndText[key]
             }
-        }) as ImageWithDescriptions[];
+        }) as LearnItemMetaData[];
 
         setImagesWithDescriptions(dataArray)
         const out: any = {};
