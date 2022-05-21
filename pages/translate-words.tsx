@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { get, getDatabase, ref } from 'firebase/database';
 import { Contribute, TextDescriptions } from '../web3/Contribute';
 import { ALL_LANGUAGES, Language } from '../languageDex';
+import { FixedNav } from '../components/FixedNav';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -54,7 +55,7 @@ const LanguagePicker = (onChooseFirst: (str: string) => void, onChooseSecond: (s
 
 export type UpdateableTranslationData = { notes: any, translation: any, class: any }
 
-const TranslatePage = () => {
+const TranslateWordsPage = () => {
 
     const [allTranslationInputs, setAllTranslationInputs] = useState<any>({});
     const [allNotesInputs, setAllNotesInputs] = useState<any>({});
@@ -214,26 +215,22 @@ const TranslatePage = () => {
         setHasBeenUpdatedList({ ...updateList })
     }
 
-
-
     return (
         <div className='w-full flex flex-col justify-center items-center'>
-            <div className='w-max-[1200px] w-full flex flex-col px-[5vw] pb-[100px] pt-[220px]'>
-                <div className='fixed top-0 left-0 right-0 h-[60px] bg-black'>
-                    <div>NAME_GOES_HERE</div>
-                    <div></div>
-                </div>
-                <button onClick={updateDatabase} className='fixed top-0 left-0 right-0 h-[60px] bg-[#0074D9] m-0 p-0 flex-center border-0'>
+            <div className='w-max-[1200px] w-full flex flex-col px-[5vw] pb-[100px] pt-[280px]'>
+                <FixedNav />
+
+                <button onClick={updateDatabase} className='fixed top-[60px] left-0 right-0 h-[60px] bg-[#0074D9] m-0 p-0 flex-center border-0'>
                     {`SAVE UPDATES TO 
                     ${Object.keys(hasBeenUpdatedList).reduce((prev: any, key: unknown) => {
                         return prev + Object.keys(hasBeenUpdatedList[key as keyof UpdateableTranslationData]).length;
                     }, 0)}
                      ITEMS`}
                 </button>
-                <button onClick={updateDatabase} className='fixed top-[60px] left-0 right-0 h-[60px] bg-[#3D9970] m-0 p-0 flex-center border-0'>
+                <button onClick={updateDatabase} className='fixed top-[120px] left-0 right-0 h-[60px] bg-[#3D9970] m-0 p-0 flex-center border-0'>
                     {`Translating ${Language.PrettyPrint(translateFromLanguage)} to ${Language.PrettyPrint(translateToLanguage)}`}
                 </button>
-                <button onClick={() => setShouldHideTranslated(!shouldHideTranslated)} className='fixed top-[120px] left-0 right-0 h-[60px] bg-[#39CCCC] m-0 p-0 flex-center border-0'>
+                <button onClick={() => setShouldHideTranslated(!shouldHideTranslated)} className='fixed top-[180px] left-0 right-0 h-[60px] bg-[#39CCCC] m-0 p-0 flex-center border-0'>
                     {`${shouldHideTranslated ? 'Show' : 'Hide'} Translated`}
                 </button>
 
@@ -279,11 +276,13 @@ const TranslatePage = () => {
                     </div>
                 })}
             </div>
-        </div >
+        </div>
     )
 }
 
-export default TranslatePage
+
+
+export default TranslateWordsPage
 
 
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { initializeApp } from "firebase/app";
 import { get, getDatabase, ref } from 'firebase/database';
 import { Contribute, TextDescriptions } from '../web3/Contribute';
-import { ImageWithDescriptions } from './translate';
+import { ImageWithDescriptions } from './translate-words';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
